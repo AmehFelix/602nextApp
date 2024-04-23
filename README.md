@@ -13,3 +13,5 @@ Branching and Merging Strategies:
 Utilizing GitHub Merging
 
 Utilizing GitFlow Branching convention
+
+Utilizing Vercel to check if a branch is builds successfully before merge
