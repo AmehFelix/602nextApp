@@ -1,0 +1,73 @@
+name: Deploy Vercel
+
+on:
+  push:
+    branches: 
+        - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Cache Node modules
+        uses: actions/cache@v3
+        with:
+            path: ~/.npm
+            key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+            restore-keys: |
+                ${{ runner.os }}-node-
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with: 
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Web App
+        run: npm run build --if-present
+
+  test:
+      needs: build
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v4
+  
+        - name: Run tests
+          run: |
+            npm install jest
+            npm install --save-dev ts-jest @types/jest
+            npm test
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with: 
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Web App
+        run: npm run build --if-present
+        
+      - name: Deploy with Vercel
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }} # Required
+          #vercel-args: '--prod' #Optional
+          vercel-org-id: ${{ secrets.ORG_ID}} #Required
+          vercel-project-id: ${{ secrets.PROJECT_ID}} #Required
+          vercel-version: 28.15.0 
+          

@@ -29,6 +29,6 @@
     ".next/types/**/*.ts",
     "app/lib/placeholder-data.js",
     "scripts/seed.js"
-  ],
+, "__tests__/stuff.js", "jest.config.js"  ],
   "exclude": ["node_modules"]
 }
