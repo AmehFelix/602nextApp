@@ -47,6 +47,8 @@ jobs:
             npm test
 
   deploy:
+    env:
+      AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
     needs: test
     runs-on: ubuntu-latest
     steps:
