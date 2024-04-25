@@ -14,4 +14,4 @@ Utilizing GitHub Merging
 
 Utilizing GitFlow Branching convention
 
-Utilizing Vercel to check if a branch builds successfully before merge
+Utilizing GitHub actions to build, test, and deploy to vercel on every push to master branch
